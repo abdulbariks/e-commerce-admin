@@ -14,7 +14,7 @@ import { Select } from "antd";
 import Dropzone from "react-dropzone";
 
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts } from "../features/product/productSlice";
+import { createProducts, resetState } from "../features/product/productSlice";
 
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
@@ -95,7 +95,7 @@ const Addproduct = () => {
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
-        navigate("/admin/list-product");
+        dispatch(resetState());
       }, 3000);
     },
   });
