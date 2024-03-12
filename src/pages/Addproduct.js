@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
-import { useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -32,16 +31,16 @@ let schema = yup.object().shape({
 
 const Addproduct = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState([]);
   console.log(color);
 
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
     dispatch(getColors());
-  }, []);
+  }, [dispatch]);
 
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
@@ -57,7 +56,7 @@ const Addproduct = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [isSuccess, isError, isLoading, createdProduct]);
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -65,6 +64,7 @@ const Addproduct = () => {
       value: i._id,
     });
   });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const img = [];
   imgState.forEach((i) => {
     img.push({
@@ -76,7 +76,8 @@ const Addproduct = () => {
   useEffect(() => {
     formik.values.color = color ? color : " ";
     formik.values.images = img;
-  }, [color, img]);
+  // eslint-disable-next-line no-use-before-define
+  }, [color, formik.values, img]);
   const formik = useFormik({
     initialValues: {
       title: "",
